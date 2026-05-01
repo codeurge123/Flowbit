@@ -893,7 +893,7 @@ textarea:focus {
   place-items: center;
   margin: 42px auto 28px;
   background: conic-gradient(#0a47ad 0 42%, #3972df 42% 70%, #739aff 70% 88%, #cfddff 88%);
-  border-radius: 14px;
+  border-radius: 100%;
 }
 
 .donut-center {
@@ -903,7 +903,7 @@ textarea:focus {
   place-items: center;
   align-content: center;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 100%;
 }
 
 .donut-center strong {
