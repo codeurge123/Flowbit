@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   addProjectMember,
   createProject,
+  deleteProject,
   getProjectInvitations,
   getProjectById,
   getUserProjects,
@@ -44,6 +45,10 @@ const invitationActionSchema = z.object({
   action: z.enum(["accept", "decline"])
 });
 
+const deleteProjectSchema = z.object({
+  password: z.string().min(1, "Password is required")
+});
+
 router.use(verifyJWT);
 router.route("/").get(getUserProjects).post(validate(projectSchema), createProject);
 router.get("/invitations", getProjectInvitations);
@@ -51,7 +56,8 @@ router.get("/invitations/stream", streamProjectInvitations);
 router
   .route("/:projectId")
   .get(validate(projectParamsSchema, "params"), getProjectById)
-  .patch(validate(projectParamsSchema, "params"), validate(updateProjectSchema), updateProject);
+  .patch(validate(projectParamsSchema, "params"), validate(updateProjectSchema), updateProject)
+  .delete(validate(projectParamsSchema, "params"), validate(deleteProjectSchema), deleteProject);
 router.patch(
   "/:projectId/invitations",
   validate(projectParamsSchema, "params"),

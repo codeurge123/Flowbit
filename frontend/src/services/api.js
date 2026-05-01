@@ -86,6 +86,7 @@ export const projectApi = {
   invitationStreamUrl: () => `${API_BASE_URL}/projects/invitations/stream?token=${encodeURIComponent(getToken() || "")}`,
   create: (form) => apiRequest("/projects", { method: "POST", body: JSON.stringify(form) }),
   update: (id, form) => apiRequest(`/projects/${id}`, { method: "PATCH", body: JSON.stringify(form) }),
+  remove: (id, form) => apiRequest(`/projects/${id}`, { method: "DELETE", body: JSON.stringify(form) }),
   addMember: (projectId, form) =>
     apiRequest(`/projects/${projectId}/members`, { method: "POST", body: JSON.stringify(form) }),
   respondInvitation: (projectId, action) =>

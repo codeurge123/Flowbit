@@ -183,6 +183,13 @@ export function AppProvider({ children }) {
     setToast("Project updated");
   };
 
+  const deleteProject = async (projectId, form) => {
+    await projectApi.remove(projectId, form);
+    await loadData("");
+    setSelectedTask(null);
+    setToast("Project deleted");
+  };
+
   const addMember = async (form) => {
     const payload = await projectApi.addMember(selectedProject._id, form);
     setProjects((current) => current.map((project) => (project._id === payload.project._id ? payload.project : project)));
@@ -233,6 +240,7 @@ export function AppProvider({ children }) {
     createTask,
     saveTask,
     updateProject,
+    deleteProject,
     addMember,
     respondInvitation,
     removeMember

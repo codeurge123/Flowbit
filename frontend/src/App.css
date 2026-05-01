@@ -1261,6 +1261,58 @@ textarea:focus {
   max-width: 720px;
 }
 
+.danger-zone {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+  border-color: #fecdd3;
+  background: #fff7f8;
+}
+
+.danger-zone h2 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.danger-zone p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.danger-btn {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  color: #fff;
+  background: var(--red);
+  border: 0;
+  border-radius: 4px;
+  font-weight: 800;
+}
+
+.danger-btn:hover {
+  background: #b40000;
+}
+
+.danger-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.danger-btn.full-width {
+  width: 100%;
+}
+
+.delete-project-modal {
+  width: min(520px, 100%);
+}
+
 .workflow-editor {
   display: grid;
   gap: 12px;
@@ -1438,6 +1490,11 @@ textarea:focus {
   box-shadow: 0 14px 32px rgba(2, 8, 23, 0.22);
 }
 
+:root[data-theme="dark"] .danger-zone {
+  background: #221421;
+  border-color: #7f1d1d;
+}
+
 :root[data-theme="dark"] .metric-card {
   background: linear-gradient(180deg, #17233a, #111b2d);
 }
@@ -1553,6 +1610,11 @@ textarea:focus {
     background: #121c2e;
     border-color: #2d3a50;
     box-shadow: 0 14px 32px rgba(2, 8, 23, 0.22);
+  }
+
+  :root[data-theme="system"] .danger-zone {
+    background: #221421;
+    border-color: #7f1d1d;
   }
 
   :root[data-theme="system"] .metric-card {
@@ -1866,6 +1928,11 @@ textarea:focus {
   .kanban-column,
   .task-detail {
     padding: 18px;
+  }
+
+  .danger-zone {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .metric-card {

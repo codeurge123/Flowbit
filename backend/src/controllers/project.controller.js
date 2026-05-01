@@ -223,3 +223,23 @@ export const removeProjectMember = asyncHandler(async (req, res) => {
   const populatedProject = await populateProject(Project.findById(project._id));
   return res.status(200).json(new ApiResponse(200, { project: populatedProject }, "Member removed"));
 });
+
+export const deleteProject = asyncHandler(async (req, res) => {
+  const project = await Project.findById(req.params.projectId);
+  if (!project) throw new ApiError(404, "Project not found");
+
+  const requester = project.members.find((member) => member.user.equals(req.user._id));
+  if (!requester || requester.role !== "Admin") {
+    throw new ApiError(403, "Only project admins can delete this project");
+  }
+
+  const user = await User.findById(req.user._id).select("+password");
+  if (!user || !(await user.isPasswordCorrect(req.body.password))) {
+    throw new ApiError(401, "Password is incorrect");
+  }
+
+  await Task.deleteMany({ project: project._id });
+  await project.deleteOne();
+
+  return res.status(200).json(new ApiResponse(200, {}, "Project deleted"));
+});

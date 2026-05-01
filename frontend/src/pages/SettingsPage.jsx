@@ -4,10 +4,13 @@ import { useApp } from "../context/useApp";
 import { workflowStatuses } from "../utils/taskUtils";
 
 export function SettingsPage() {
-  const { selectedProject, updateProject, user, setToast } = useApp();
+  const { selectedProject, updateProject, deleteProject, user, setToast } = useApp();
   const role = selectedProject?.members?.find((member) => member.user._id === user?._id)?.role;
   const isAdmin = role === "Admin";
   const [steps, setSteps] = useState(workflowStatuses(selectedProject));
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deletePassword, setDeletePassword] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     queueMicrotask(() => setSteps(workflowStatuses(selectedProject)));
@@ -29,6 +32,20 @@ export function SettingsPage() {
     }
 
     await updateProject(selectedProject._id, { workflowStatuses: workflow }).catch((err) => setToast(err.message));
+  };
+
+  const submitDelete = async (event) => {
+    event.preventDefault();
+    setDeleting(true);
+    try {
+      await deleteProject(selectedProject._id, { password: deletePassword });
+      setDeletePassword("");
+      setDeleteOpen(false);
+    } catch (err) {
+      setToast(err.message);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
@@ -62,6 +79,43 @@ export function SettingsPage() {
           </>
         )}
       </article>
+
+      {isAdmin && (
+        <article className="panel settings-panel danger-zone">
+          <div>
+            <h2>Delete Project</h2>
+            <p>This permanently removes the project, its workflow, members, invitations, and all tickets.</p>
+          </div>
+          <button className="danger-btn" type="button" onClick={() => setDeleteOpen(true)}>
+            <FiTrash2 /> Delete Project
+          </button>
+        </article>
+      )}
+
+      {deleteOpen && (
+        <div className="modal-backdrop">
+          <form className="modal delete-project-modal" onSubmit={submitDelete}>
+            <div className="panel-title">
+              <h2>Confirm Project Delete</h2>
+              <button type="button" title="Close" onClick={() => setDeleteOpen(false)}>x</button>
+            </div>
+            <p className="empty-state">Enter your password to delete "{selectedProject?.name}". This action cannot be undone.</p>
+            <label>
+              Password
+              <input
+                required
+                autoFocus
+                type="password"
+                value={deletePassword}
+                onChange={(event) => setDeletePassword(event.target.value)}
+              />
+            </label>
+            <button className="danger-btn full-width" type="submit" disabled={deleting}>
+              {deleting ? "Deleting..." : "Delete Project Permanently"}
+            </button>
+          </form>
+        </div>
+      )}
     </section>
   );
 }
