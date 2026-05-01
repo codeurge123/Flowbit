@@ -17,6 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 const configuredOrigins = process.env.CORS_ORIGIN?.split(",").map((origin) => origin.trim()).filter(Boolean) || [];
+const productionOrigins = [
+  "https://flowbits-two.vercel.app"
+];
 const developmentOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
@@ -25,6 +28,7 @@ const developmentOrigins = [
 ];
 const allowedOrigins = new Set([
   ...configuredOrigins,
+  ...productionOrigins,
   ...(process.env.NODE_ENV === "production" ? [] : developmentOrigins)
 ]);
 app.use(cors({
