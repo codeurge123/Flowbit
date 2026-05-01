@@ -81,7 +81,7 @@ function Topbar() {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem("flowbit_theme") || "system");
+  const [theme, setTheme] = useState(() => localStorage.getItem("flowbit_theme") || "light");
   const menuRef = useRef(null);
   const notificationsRef = useRef(null);
   const settingsRef = useRef(null);
