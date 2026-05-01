@@ -48,9 +48,16 @@ app.use(cors({
 
 app.use(cookieParser());
 
+
+app.get("/", (_req, res) => {
+  res.status(200).json({ success: true, message: "Welcome to the Flowbit API" });
+});
+
 app.get("/api/health", (_req, res) => {
   res.status(200).json({ success: true, message: "Flowbit API is running" });
 });
+
+
 
 app.use("/api/auth", authRouter);
 app.use("/api/projects", projectRouter);
@@ -77,5 +84,6 @@ app.use((err, _req, res, _next) => {
     errors: err.errors || []
   });
 });
+
 
 export { app };
