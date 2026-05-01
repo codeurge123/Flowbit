@@ -1,111 +1,206 @@
 # Flowbit - Team Task Manager
 
-Flowbit is a full-stack team task management app built with the stack already present in this repository: React + Vite on the frontend, Express + MongoDB/Mongoose on the backend, JWT authentication, and REST APIs.
+A full-stack task management and collaboration platform built to streamline team workflows, improve productivity, and provide a clean, scalable solution for managing projects and tasks in real time.
+
+---
+
+## Live Demo
+
+- https://flowbits-two.vercel.app/
+
+---
+
+## Overview
+
+This project is a modern task management system where users can create projects, assign tasks, track progress, and collaborate with team members.
+
+The goal of this application is to bridge the gap between simplicity and functionality by providing an intuitive UI combined with a powerful backend.
+
+---
 
 ## Features
 
-- Signup, signin, logout, and persisted JWT sessions
-- Project creation with creator as Admin
-- Admin project member management
-- Task creation, assignment, priority, due date, status updates, and deletion
-- Member access limited to assigned tasks
-- Dashboard metrics for total tasks, status breakdown, tasks per user, and overdue tasks
-- Responsive Flowbit UI inspired by the provided references
+### Authentication & Authorization
+
+* Secure user signup and login
+* Session-based or token-based authentication
+* Role-based access control:
+
+  * **Admin** → Full control over projects and tasks
+  * **Member** → Limited access based on assignment
+
+---
+
+### Project Management
+
+* Create and manage multiple projects
+* Organize tasks within each project
+* View all projects in a centralized dashboard
+
+---
+
+### Task Management
+
+* Create, update, and delete tasks
+* Assign tasks to team members
+* Track task status:
+
+  * Pending
+  * In Progress
+  * Completed
+
+---
+
+### Dashboard
+
+* Overview of all tasks and projects
+* Visual representation of task progress
+* Quick access to active and overdue tasks
+
+---
+
+### User Experience
+
+* Clean and modern UI
+* Fully responsive design
+* Smooth interactions and state updates
+
+---
 
 ## Tech Stack
 
-- Frontend: React 19, Vite, CSS
-- Backend: Node.js, Express 5, Mongoose, JWT, bcryptjs, Zod
-- Database: MongoDB
-- Deployment target: Railway
+### Frontend
 
-## Local Setup
+* **React.js** – Component-based UI
+* **CSS / Tailwind CSS** – Styling and responsiveness
+* **Axios / Fetch API** – API communication
 
-```bash
+### Backend
+
+* **Node.js** – Runtime environment
+* **Express.js** – REST API framework
+
+### Database
+
+* **MongoDB** – NoSQL database for flexible data modeling
+
+---
+
+## System Architecture
+
+The application follows a **client-server architecture**:
+
+* **Frontend (React)** handles UI and user interactions
+* **Backend (Node + Express)** manages business logic and APIs
+* **Database (MongoDB)** stores users, projects, and tasks
+
+All communication between frontend and backend is handled via **RESTful APIs**.
+
+---
+
+## Application Flow
+
+1. User signs up or logs in
+2. Creates or joins a project
+3. Adds tasks inside the project
+4. Assigns tasks to team members
+5. Updates task status as work progresses
+6. Dashboard reflects real-time progress
+
+---
+
+## Folder Structure (Conceptual)
+
+```
+project-root/
+│
+├── client/              # React frontend
+│   ├── components/
+│   ├── pages/
+│   ├── services/
+│
+├── server/              # Node + Express backend
+│   ├── controllers/
+│   ├── routes/
+│   ├── models/
+│
+└── README.md
+```
+
+---
+
+## Installation & Setup
+
+### Clone the Repository
+
+```
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
+
+### Install Dependencies
+
+```
+# Install frontend dependencies
+cd client
+npm install
+
+# Install backend dependencies
+cd ../server
 npm install
 ```
 
-Create `backend/.env`:
+### Environment Variables
 
-```bash
-PORT=3000
-MONGO_URI=mongodb+srv://USER:PASSWORD@HOST/flowbit
-JWT_SECRET=replace-with-a-long-random-secret
-JWT_EXPIRES_IN=7d
-CORS_ORIGIN=http://localhost:5173
+Create a `.env` file in the server folder:
+
+```
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
+JWT_SECRET=your_secret_key
 ```
 
-For local frontend API calls you can either use the built-in Vite proxy, or create `frontend/.env` if you want to call the backend directly:
+---
 
-```bash
-# Optional. Without this, frontend dev uses Vite proxy at /api.
-VITE_API_URL=http://localhost:3000/api
+### Run the Application
+
 ```
+# Run backend
+cd server
+npm run dev
 
-Run the backend and frontend in separate terminals:
-
-```bash
-npm run dev:backend
-npm run dev:frontend
-```
-
-Open `http://localhost:5173`.
-
-## Production Build
-
-```bash
-npm run build
+# Run frontend
+cd client
 npm start
 ```
 
-The backend serves `frontend/dist`, so one Railway service can host the full app after the frontend build runs.
+---
 
-## REST API
+## Deployment
 
-- `POST /api/auth/signup`
-- `POST /api/auth/signin`
-- `POST /api/auth/logout`
-- `GET /api/auth/me`
-- `GET /api/auth/users`
-- `GET /api/projects`
-- `POST /api/projects`
-- `GET /api/projects/:projectId`
-- `PATCH /api/projects/:projectId`
-- `POST /api/projects/:projectId/members`
-- `DELETE /api/projects/:projectId/members/:userId`
-- `GET /api/tasks?projectId=:projectId`
-- `POST /api/tasks`
-- `PATCH /api/tasks/:taskId`
-- `DELETE /api/tasks/:taskId`
-- `GET /api/dashboard`
+* **Frontend**: Deployed on Vercel
+* **Backend**: Can be deployed on platforms like Render / Railway / AWS
+* **Database**: MongoDB Atlas
 
-## Railway Deployment
+---
 
-1. Push this repository to GitHub.
-2. Create a new Railway project from the GitHub repository.
-3. Add a MongoDB database in Railway or use MongoDB Atlas.
-4. Set these service variables:
+## Key Highlights
 
-```bash
-MONGO_URI=your-production-mongodb-uri
-JWT_SECRET=replace-with-a-long-random-secret
-JWT_EXPIRES_IN=7d
-NODE_ENV=production
-CORS_ORIGIN=https://your-railway-domain.up.railway.app
-```
+* Scalable and modular architecture
+* RESTful API design with proper validation
+* Role-based access control implementation
+* Clean and reusable React components
+* Real-world team collaboration workflow
 
-5. Use these commands if Railway does not auto-detect them:
+---
 
-```bash
-Build Command: npm run build
-Start Command: npm start
-```
+## Author
 
-6. Generate the public Railway domain and use it as the live application URL.
+**codeurge - @yashbansal**
+Full-Stack Developer (MERN)
 
-## Submission Checklist
+---
 
-- Live application URL from Railway
-- GitHub repository URL
-- This README with setup and deployment steps
-- 2-5 minute demo video covering signup, signin, project creation, member management, task creation/status updates, and dashboard metrics
+## Contact
+
+If you have any feedback or suggestions, feel free to reach out!
