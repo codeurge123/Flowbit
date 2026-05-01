@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiCheck } from "react-icons/fi";
 import { Link, Navigate, useLocation } from "react-router-dom";
+import heroImg from "../assets/hero.png";
 import { useApp } from "../context/useApp";
 
 export function AuthPage({ mode }) {
