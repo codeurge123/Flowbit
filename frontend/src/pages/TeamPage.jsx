@@ -24,7 +24,7 @@ export function TeamPage() {
           >
             <input type="email" required placeholder="member@company.com" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} />
             <select value={form.role} onChange={(event) => setForm({ ...form, role: event.target.value })}><option>Member</option><option>Admin</option></select>
-            <button className="primary-btn small">Send invite</button>
+            <button className="primary-btn large ">Send Invite</button>
           </form>
         )}
         <div className="member-list">

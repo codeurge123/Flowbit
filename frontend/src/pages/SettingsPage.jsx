@@ -56,7 +56,7 @@ export function SettingsPage() {
               ))}
             </div>
             <div className="heading-actions">
-              <button className="outline-btn" onClick={() => setSteps((current) => [...current, `Step ${current.length + 1}`])}><FiPlus /> Add step</button>
+              <button className="outline-btn flex justify-center items-center" onClick={() => setSteps((current) => [...current, `Step ${current.length + 1}`])}><FiPlus /> Add step</button>
               <button className="primary-btn small" onClick={save}>Save Workflow</button>
             </div>
           </>

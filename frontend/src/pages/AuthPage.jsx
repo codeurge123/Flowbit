@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { FiCheck } from "react-icons/fi";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import heroImg from "../assets/hero.png";
+import logoImg from "../assets/logo.png";
 import { useApp } from "../context/useApp";
 
 export function AuthPage({ mode }) {
@@ -32,7 +32,7 @@ export function AuthPage({ mode }) {
       <section className="auth-card">
         <div className="auth-visual" style={{ backgroundImage: `linear-gradient(rgba(8, 68, 155, .92), rgba(6, 65, 152, .95)), url(${heroImg})` }}>
           <div className="auth-brand">
-            <span className="brand-mark"><FiCheck /></span>
+            <span className="brand-mark"><img src={logoImg} alt="" /></span>
             <strong>Flowbit</strong>
           </div>
           <h1>Streamline your team's velocity with precision.</h1>

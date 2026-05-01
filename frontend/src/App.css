@@ -222,6 +222,12 @@ button {
   flex: 0 0 auto;
 }
 
+.brand-mark img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
 .inline-icon {
   display: inline-flex;
   align-items: center;
