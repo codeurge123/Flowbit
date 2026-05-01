@@ -1690,6 +1690,14 @@ textarea:focus {
   .task-detail {
     border-left: 0;
   }
+
+  .reports-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-report-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1723,36 +1731,112 @@ textarea:focus {
     position: static;
     height: auto;
     flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
     overflow-x: auto;
     border-right: 0;
     border-bottom: 1px solid var(--soft-line);
+  }
+
+  .sidebar-toggle,
+  .logo div {
+    display: none;
+  }
+
+  .logo {
+    flex: 0 0 auto;
   }
 
   .sidebar nav {
     grid-auto-flow: column;
     grid-auto-columns: max-content;
     display: grid;
+    gap: 6px;
+  }
+
+  .sidebar a,
+  .sidebar button:not(.new-project-btn) {
+    width: 44px;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+    font-size: 0;
+  }
+
+  .sidebar a span,
+  .sidebar button span {
+    display: grid;
+    place-items: center;
+    font-size: 1rem;
   }
 
   .new-project-btn {
     margin-left: auto;
     min-width: 52px;
+    flex: 0 0 52px;
   }
 
   .topbar,
-  .section-heading,
-  .top-actions {
+  .section-heading {
     align-items: stretch;
     flex-direction: column;
   }
 
   .topbar {
     position: static;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .search {
+    flex: 1 1 auto;
+  }
+
+  .top-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(38px, max-content));
+    justify-content: start;
+    gap: 8px;
+  }
+
+  .account-menu {
+    justify-self: end;
+  }
+
+  .notification-dropdown,
+  .settings-dropdown,
+  .help-dropdown,
+  .account-dropdown {
+    position: fixed;
+    top: 126px;
+    right: 16px;
+    left: 16px;
+    width: auto;
   }
 
   .content-section,
   .my-task-list {
     padding: 24px 16px;
+    max-width: none;
+  }
+
+  .section-heading {
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .section-heading h1,
+  .content-section h1 {
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+
+  .heading-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .metric-grid,
@@ -1763,11 +1847,155 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
+  .metric-grid,
+  .dashboard-grid,
+  .reports-grid,
+  .kanban-board,
+  .compact-columns {
+    gap: 16px;
+  }
+
+  .metric-card,
+  .panel,
+  .kanban-column,
+  .task-detail {
+    padding: 18px;
+  }
+
+  .metric-card {
+    min-height: 124px;
+  }
+
+  .metric-card strong {
+    font-size: 1.65rem;
+  }
+
+  .panel-title {
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .donut {
+    width: 176px;
+    height: 176px;
+    margin: 24px auto 20px;
+  }
+
+  .donut-center {
+    width: 140px;
+    height: 140px;
+  }
+
+  .people-panel,
+  .people-bars {
+    min-height: 240px;
+  }
+
+  .people-bars {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 6px;
+  }
+
+  .person-bar {
+    min-width: 54px;
+  }
+
+  .project-report-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .status-pills {
+    align-items: flex-start;
+  }
+
+  .report-bar-row {
+    grid-template-columns: 1fr 52px;
+    gap: 8px;
+  }
+
+  .report-bar-row span {
+    grid-column: 1 / -1;
+  }
+
+  .workload-row {
+    grid-template-columns: 38px 1fr auto;
+  }
+
+  .split-tasks {
+    min-height: auto;
+  }
+
+  .task-detail {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .task-card,
+  .mini-card {
+    min-height: auto;
+  }
+
+  .modal-backdrop {
+    align-items: start;
+    padding: 14px;
+    overflow-y: auto;
+  }
+
+  .modal {
+    max-height: none;
+    padding: 20px;
+  }
+
   .table-row,
   .member-row,
   .member-form,
   .form-grid {
     grid-template-columns: 1fr;
     display: grid;
+  }
+
+  .table-row,
+  .member-row {
+    gap: 8px;
+    padding: 14px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-visual {
+    display: none;
+  }
+
+  .auth-form {
+    padding: 28px 18px;
+  }
+
+  .top-actions {
+    grid-template-columns: repeat(4, minmax(38px, max-content));
+  }
+
+  .top-actions > .primary-btn.small {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  .theme-options {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-title {
+    flex-direction: column;
+  }
+
+  .workflow-row {
+    grid-template-columns: 30px 1fr 38px;
+    gap: 8px;
+  }
+
+  .breadcrumb {
+    overflow-wrap: anywhere;
   }
 }

@@ -8,6 +8,7 @@ import {
   getUserProjects,
   removeProjectMember,
   respondToProjectInvitation,
+  streamProjectInvitations,
   updateProject
 } from "../controllers/project.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -46,6 +47,7 @@ const invitationActionSchema = z.object({
 router.use(verifyJWT);
 router.route("/").get(getUserProjects).post(validate(projectSchema), createProject);
 router.get("/invitations", getProjectInvitations);
+router.get("/invitations/stream", streamProjectInvitations);
 router
   .route("/:projectId")
   .get(validate(projectParamsSchema, "params"), getProjectById)

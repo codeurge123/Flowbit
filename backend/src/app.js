@@ -29,7 +29,11 @@ const allowedOrigins = new Set([
 ]);
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.size === 0 || allowedOrigins.has(origin)) {
+    const isLocalDevOrigin =
+      process.env.NODE_ENV !== "production" &&
+      /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin || "");
+
+    if (!origin || allowedOrigins.size === 0 || allowedOrigins.has(origin) || isLocalDevOrigin) {
       return callback(null, true);
     }
 

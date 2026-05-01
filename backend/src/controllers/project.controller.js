@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Project } from "../models/project.model.js";
 import { Task } from "../models/task.model.js";
 import { User } from "../models/user.model.js";
+import { addRealtimeClient, sendRealtimeEvent } from "../utils/realtime.js";
 
 const populateProject = (query) =>
   query
@@ -109,6 +110,12 @@ export const addProjectMember = asyncHandler(async (req, res) => {
   await project.save();
 
   const populatedProject = await populateProject(Project.findById(project._id));
+  sendRealtimeEvent(user._id, "invitation", {
+    projectId: project._id,
+    projectName: project.name,
+    invitedBy: req.user.name,
+    role: req.body.role || "Member"
+  });
   return res.status(200).json(new ApiResponse(200, { project: populatedProject }, "Invitation sent"));
 });
 
@@ -142,6 +149,27 @@ export const getProjectInvitations = asyncHandler(async (req, res) => {
   );
 
   return res.status(200).json(new ApiResponse(200, { invitations }, "Invitations fetched"));
+});
+
+export const streamProjectInvitations = asyncHandler(async (req, res) => {
+  res.set({
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive"
+  });
+  res.flushHeaders?.();
+
+  const removeClient = addRealtimeClient(req.user._id, res);
+  res.write(`event: connected\ndata: ${JSON.stringify({ ok: true })}\n\n`);
+
+  const heartbeat = setInterval(() => {
+    res.write(": keep-alive\n\n");
+  }, 25000);
+
+  req.on("close", () => {
+    clearInterval(heartbeat);
+    removeClient();
+  });
 });
 
 export const respondToProjectInvitation = asyncHandler(async (req, res) => {

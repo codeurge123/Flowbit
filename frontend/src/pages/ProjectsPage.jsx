@@ -26,7 +26,6 @@ export function ProjectsPage() {
           <select value={selectedProject?._id || ""} onChange={(event) => setSelectedProjectId(event.target.value)}>
             {projects.map((project) => <option key={project._id} value={project._id}>{project.name}</option>)}
           </select>
-          <button className="outline-btn">Share</button>
         </div>
       </div>
       <div className="project-workspace">

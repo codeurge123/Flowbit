@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { authApi, dashboardApi, getToken, projectApi, taskApi } from "../services/api";
 import { AppContext } from "./appContext";
 
+const SELECTED_PROJECT_KEY = "flowbit_selected_project";
+
 export function AppProvider({ children }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [projects, setProjects] = useState([]);
   const [invitations, setInvitations] = useState([]);
-  const [selectedProjectId, setSelectedProjectId] = useState("");
+  const [selectedProjectId, setSelectedProjectIdState] = useState(() => localStorage.getItem(SELECTED_PROJECT_KEY) || "");
   const [tasks, setTasks] = useState([]);
   const [dashboard, setDashboard] = useState(null);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -25,9 +27,20 @@ export function AppProvider({ children }) {
     [projects, selectedProjectId]
   );
 
+  const setSelectedProjectId = useCallback((projectId) => {
+    setSelectedProjectIdState(projectId);
+    if (projectId) {
+      localStorage.setItem(SELECTED_PROJECT_KEY, projectId);
+    } else {
+      localStorage.removeItem(SELECTED_PROJECT_KEY);
+    }
+  }, []);
+
   const loadData = useCallback(async (preferredProjectId = selectedProjectId) => {
     const [projectPayload, dashboardPayload] = await Promise.all([projectApi.list(), dashboardApi.get()]);
-    const activeProjectId = preferredProjectId || projectPayload.projects[0]?._id || "";
+    const activeProjectId = projectPayload.projects.some((project) => project._id === preferredProjectId)
+      ? preferredProjectId
+      : projectPayload.projects[0]?._id || "";
 
     setProjects(projectPayload.projects);
     setSelectedProjectId(activeProjectId);
@@ -39,7 +52,7 @@ export function AppProvider({ children }) {
     } else {
       setTasks([]);
     }
-  }, [selectedProjectId]);
+  }, [selectedProjectId, setSelectedProjectId]);
 
   const loadInvitations = useCallback(async () => {
     const payload = await projectApi.invitations();
@@ -79,6 +92,20 @@ export function AppProvider({ children }) {
   }, [loadInvitations, user]);
 
   useEffect(() => {
+    if (!user || !getToken()) return undefined;
+
+    const events = new EventSource(projectApi.invitationStreamUrl(), { withCredentials: true });
+
+    events.addEventListener("invitation", (event) => {
+      const payload = JSON.parse(event.data || "{}");
+      loadInvitations().catch((err) => setToast(err.message));
+      setToast(`${payload.invitedBy || "Someone"} invited you to ${payload.projectName || "a project"}`);
+    });
+
+    return () => events.close();
+  }, [loadInvitations, setToast, user]);
+
+  useEffect(() => {
     if (!selectedProjectId || !user) return;
     queueMicrotask(() => setSelectedTask(null));
     taskApi
@@ -104,6 +131,7 @@ export function AppProvider({ children }) {
     setInvitations([]);
     setTasks([]);
     setDashboard(null);
+    setSelectedProjectId("");
     navigate("/signin", { replace: true });
   };
 

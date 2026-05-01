@@ -83,6 +83,7 @@ export const authApi = {
 export const projectApi = {
   list: () => apiRequest("/projects"),
   invitations: () => apiRequest("/projects/invitations"),
+  invitationStreamUrl: () => `${API_BASE_URL}/projects/invitations/stream?token=${encodeURIComponent(getToken() || "")}`,
   create: (form) => apiRequest("/projects", { method: "POST", body: JSON.stringify(form) }),
   update: (id, form) => apiRequest(`/projects/${id}`, { method: "PATCH", body: JSON.stringify(form) }),
   addMember: (projectId, form) =>

@@ -51,10 +51,6 @@ export function DashboardPage() {
           <h1>{role === "Admin" ? "Admin Overview" : "My Overview"}</h1>
           <p>{role === "Admin" ? "Project health, member load, and ticket distribution." : "Your active projects, assignments, and delivery status."}</p>
         </div>
-        <div className="heading-actions">
-          <button className="outline-btn">Filter</button>
-          <button className="outline-btn">Export</button>
-        </div>
       </div>
       <div className="metric-grid">
         <Metric title="Projects Going" value={dashboard?.totalProjects || 0} hint={`${adminProjects.length} admin projects`} tone="blue" icon="activity" />

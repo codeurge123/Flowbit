@@ -5,7 +5,7 @@ import { User } from "../models/user.model.js";
 
 export const verifyJWT = asyncHandler(async (req, _res, next) => {
   const bearerToken = req.header("Authorization")?.replace("Bearer ", "");
-  const token = req.cookies?.accessToken || bearerToken;
+  const token = req.cookies?.accessToken || bearerToken || req.query.token;
 
   if (!token) {
     throw new ApiError(401, "Authentication required");
