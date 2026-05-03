@@ -46,7 +46,6 @@ function Sidebar() {
         <span className="logo-icon"><FiZap /></span>
         <div>
           <strong>Flowbit</strong>
-          <small>Enterprise Tier</small>
         </div>
       </div>
       <nav>

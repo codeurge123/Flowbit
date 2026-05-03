@@ -75,6 +75,7 @@ export function DashboardPage() {
         <article className="panel status-panel">
           <div className="panel-title"><h2>Status Breakdown</h2><span>⋮</span></div>
           <div className="donut
+          
           "><div className="donut-center"><strong>{total}</strong><span>Total</span></div></div>
           <div className="legend">
             {statusColumns.map((item) => <span key={item}><i className={`dot ${item.replaceAll(" ", "-").toLowerCase()}`} />{item} ({status[item] || 0})</span>)}
